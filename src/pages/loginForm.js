@@ -1,18 +1,11 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
-import '../signupForm.css'
 import { AuthContext } from '../App';
-import { useHistory } from "react-router-dom";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues
 const validate = values => {
     const errors = {};
-    if (!values.userName) {
-        errors.userName = 'Required';
-    } else if (values.userName.length < 4) {
-        errors.userName = 'The username must be more than 4 characters';
-    }
 
     if (!values.email) {
         errors.email = 'Required';
@@ -30,35 +23,22 @@ const validate = values => {
     return errors;
 };
 
-const SignupForm = () => {
-    const { user, setUser } = useContext(AuthContext);
-    const history = useHistory();
+const LoginForm = () => {
+    const { user } = useContext(AuthContext);
     const formik = useFormik({
         initialValues: {
-            userName: '',
             email: '',
             Password: '',
         },
         validate,
-        onSubmit: values => {
-            setUser([...user, { id: user.length + 1, username: values.userName, email: values.email, password: values.Password }])
-            return history.push("/SignupForm")
+        onSubmit: () => {
+            alert("Hello")
         },
     });
     return (
         <div>
-            <h1>Register Form</h1>
+            <h1>Login Form</h1>
             <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="userName">Username</label>
-                <input
-                    id="userName"
-                    name="userName"
-                    type="text"
-                    onChange={formik.handleChange}
-                    value={formik.values.userName}
-                />
-                {formik.errors.userName ? <div className="error">{formik.errors.userName}</div> : null}
-
                 <label htmlFor="email">Email Address</label>
                 <input
                     id="email"
@@ -81,17 +61,11 @@ const SignupForm = () => {
                 {formik.errors.Password ? <div className="error">{formik.errors.Password}</div> : null}
 
 
-                <button type="submit">Register</button>
+                <button type="submit">Login</button>
+                <button style={{ width: 200 }}>Signup</button>
             </form>
-            {user.map((item) => {
-                return <div>
-                    <p>name : {item.username}</p>
-                    <p>email :{item.email}</p>
-                    <p>password : {item.password}</p><br />
-                </div>
-            })}
         </div>
     );
 };
 
-export default SignupForm;
+export default LoginForm;
