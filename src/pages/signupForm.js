@@ -4,8 +4,17 @@ import '../signupForm.css'
 import { AuthContext } from '../App';
 import { useHistory } from "react-router-dom";
 
-// A custom validation function. This must return an object
-// which keys are symmetrical to our values/initialValues
+function uniqueID() {
+    function chr4() {
+        return Math.random().toString(16).slice(-4);
+    }
+    return chr4() + chr4() +
+        '-' + chr4() +
+        '-' + chr4() +
+        '-' + chr4() +
+        '-' + chr4() + chr4() + chr4();
+}
+
 const validate = values => {
     const errors = {};
     if (!values.userName) {
@@ -41,8 +50,9 @@ const SignupForm = () => {
         },
         validate,
         onSubmit: values => {
-            setUser([...user, { id: user.length + 1, username: values.userName, email: values.email, password: values.Password }])
-            return history.push("/SignupForm")
+            history.push('/')
+            setUser([...user, { id: uniqueID(), username: values.userName, email: values.email, password: values.Password }])
+
         },
     });
     return (

@@ -27,9 +27,6 @@ function App() {
     <div>
 
       <AuthContext.Provider value={{ user, setUser }}>
-        {/* <LoginForm />
-        <SignupForm /> */}
-
         <Switch>
           <Route exact path="/" component={LoginForm}></Route>
           <Route path="/SignupForm" component={SignupForm}></Route>

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { AuthContext } from '../App';
+import { useHistory } from "react-router-dom";
+import '../signupForm.css'
 
-// A custom validation function. This must return an object
-// which keys are symmetrical to our values/initialValues
 const validate = values => {
     const errors = {};
 
@@ -25,14 +25,43 @@ const validate = values => {
 
 const LoginForm = () => {
     const { user } = useContext(AuthContext);
+    const history = useHistory();
+    function checkLogin(email, password) {
+
+        const filterEmail = user.filter((item) => {
+            return email === item.email;
+        })
+        // console.log("email :", email)
+        // console.log("Filter :", filterEmail, 'length :', filterEmail.length)
+
+        // console.log("Email :", filterEmail[0].email)
+        // console.log("Pass :", filterEmail[0].password)
+
+
+
+        // user.map((item) => {
+        //     if (email !== item.email) {
+        //         return console.log("The E-mail is not defined")
+        //     } else {
+        //         return console.log("Found E-mail")
+        //     }
+        // })
+
+        if ((filterEmail[0].email === email) && (filterEmail[0].password === password)) {
+            return alert("Login Success")
+        } else if (filterEmail[0].password !== password) {
+            return alert("Password is not correct, try again!")
+        }
+    }
+
     const formik = useFormik({
         initialValues: {
             email: '',
             Password: '',
         },
         validate,
-        onSubmit: () => {
-            alert("Hello")
+        onSubmit: values => {
+            return checkLogin(values.email, values.Password)
         },
     });
     return (
@@ -54,7 +83,7 @@ const LoginForm = () => {
                 <input
                     id="Password"
                     name="Password"
-                    type="text"
+                    type="password"
                     onChange={formik.handleChange}
                     value={formik.values.Password}
                 />
@@ -62,7 +91,7 @@ const LoginForm = () => {
 
 
                 <button type="submit">Login</button>
-                <button style={{ width: 200 }}>Signup</button>
+                <button onClick={() => history.push("/SignupForm")} style={{ width: 200 }}>Signup</button>
             </form>
         </div>
     );
