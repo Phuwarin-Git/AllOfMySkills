@@ -28,29 +28,20 @@ const LoginForm = () => {
     const history = useHistory();
     function checkLogin(email, password) {
 
+
         const filterEmail = user.filter((item) => {
-            return email === item.email;
+            if (item.email === email && item.password === password) {
+                return item;
+            }
         })
-        // console.log("email :", email)
-        // console.log("Filter :", filterEmail, 'length :', filterEmail.length)
 
-        // console.log("Email :", filterEmail[0].email)
-        // console.log("Pass :", filterEmail[0].password)
+        console.log("FilterEmail :", filterEmail)
 
-
-
-        // user.map((item) => {
-        //     if (email !== item.email) {
-        //         return console.log("The E-mail is not defined")
-        //     } else {
-        //         return console.log("Found E-mail")
-        //     }
-        // })
-
-        if ((filterEmail[0].email === email) && (filterEmail[0].password === password)) {
+        if (filterEmail.length == 1) {
+            history.push("/Home")
             return alert("Login Success")
-        } else if (filterEmail[0].password !== password) {
-            return alert("Password is not correct, try again!")
+        } else {
+            return alert("Email or password is not correct")
         }
     }
 
