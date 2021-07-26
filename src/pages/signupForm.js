@@ -93,13 +93,6 @@ const SignupForm = () => {
 
                 <button type="submit">Register</button>
             </form>
-            {user.map((item) => {
-                return <div>
-                    <p>name : {item.username}</p>
-                    <p>email :{item.email}</p>
-                    <p>password : {item.password}</p><br />
-                </div>
-            })}
         </div>
     );
 };

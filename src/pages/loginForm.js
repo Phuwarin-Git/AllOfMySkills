@@ -35,9 +35,7 @@ const LoginForm = () => {
             }
         })
 
-        console.log("FilterEmail :", filterEmail)
-
-        if (filterEmail.length == 1) {
+        if (filterEmail.length === 1) {
             history.push("/Home")
             return alert("Login Success")
         } else {
