@@ -30,10 +30,9 @@ const LoginForm = () => {
 
 
         const filterEmail = user.filter((item) => {
-            if (item.email === email && item.password === password) {
-                return item;
-            }
+            return (item.email === email && item.password === password)
         })
+        console.log('filter :', filterEmail)
 
         if (filterEmail.length === 1) {
             history.push("/Home")

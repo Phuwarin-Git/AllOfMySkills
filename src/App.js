@@ -19,12 +19,13 @@ function App() {
     }
   });
   useEffect(() => {
+    console.log("User :", user)
     localStorage.setItem('saved', JSON.stringify(user));
   }, [user])
 
   return (
+    // window.localStorage.removeItem('saved')
     <div>
-
       <AuthContext.Provider value={{ user, setUser }}>
         <Switch>
           <Route exact path="/" component={LoginForm}></Route>
