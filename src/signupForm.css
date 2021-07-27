@@ -4,16 +4,12 @@ body{
     color: white;
     align-items: center;
   
-    background: #43cea2; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #43cea2, #185a9d); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #bae4ff, #48a1fa); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   
-    background-repeat: no-repeat;
-    background-attachment: fixed;
   }
   
   input{
-    width: 400px;
+    min-width: 400px;
     height: 30px;
     padding:10px;
     border-radius: 8px;
@@ -30,6 +26,7 @@ body{
     margin-bottom: 20px;
   }
   button{
+    min-width: 300px;
     height: 46px;
     margin-top: 14px;
     background-color: rgb(14, 147, 255);
@@ -38,10 +35,70 @@ body{
     box-shadow: 1px 2px 3px #252525aa;
     font-size: 15px;
     cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sigupbut{
+    height: 46px;
+    margin-top: 14px;
+    color:white;
+    background-color: rgb(44, 44, 44);
+    border-radius: 8px;
+    border:1px solid rgb(0, 0, 0);
+    box-shadow: 1px 2px 3px #252525aa;
+    font-size: 15px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
   }
   .error{
     font-size: 12px;
     color: rgb(122, 12, 22);
     margin-top:-10px;
     margin-bottom: 10px;
+  }
+
+  @media only screen and (max-width:414px){
+    input{
+      min-width: 300px;
+    }
+    button{
+      min-width:350px;
+    }
+  }
+
+  @media only screen and (min-width: 415px) and (max-width: 767px) {
+    input{
+      width: 300px;
+    }
+    button{
+      width:350px;
+    }
+  }
+
+  @media only screen and (min-width: 768px) and (max-width: 1439px) {
+    input{
+      min-width: 400px;
+    }
+    button{
+      width:250px;
+      font-size: 18px;
+    }
+    .sigupbut{
+      font-size: 18px;
+    }
+  }
+
+  @media only screen and (min-width: 1440px) and (max-width: 2499px) {
+    input{
+      min-width: 400px;
+    }
+    button{
+      width:250px;
+      font-size: 20px;
+    }
+    .sigupbut{
+      font-size: 20px;
+    }
   }

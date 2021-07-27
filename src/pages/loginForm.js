@@ -3,31 +3,12 @@ import { useFormik } from 'formik';
 import { AuthContext } from '../App';
 import { useHistory } from "react-router-dom";
 import '../signupForm.css'
-
-const validate = values => {
-    const errors = {};
-
-    if (!values.email) {
-        errors.email = 'Required';
-        ///////////hellothisemailand@lamduan.ac.th     
-    } else if (!/^[A-Z 0-9 . _ % + -]+@[A-Z 0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address';
-    }
-
-    if (!values.Password) {
-        errors.Password = 'Required';
-    } else if (!/^[A-Z 0-9]{8,20}$/i.test(values.Password)) {
-        errors.Password = 'The Password must be 0-9 or A-Z more than 8 charaters but less than 20 characters';
-    }
-
-    return errors;
-};
+import * as Yup from 'yup';
 
 const LoginForm = () => {
-    const { user } = useContext(AuthContext);
+    const { user, setCurrent } = useContext(AuthContext);
     const history = useHistory();
     function checkLogin(email, password) {
-
 
         const filterEmail = user.filter((item) => {
             return (item.email === email && item.password === password)
@@ -36,10 +17,15 @@ const LoginForm = () => {
 
         if (filterEmail.length === 1) {
             history.push("/Home")
-            return alert("Login Success")
+            return <div>
+                {setCurrent(filterEmail)}
+                {alert("Login Success")}
+            </div>
+
         } else {
             return alert("Email or password is not correct")
         }
+
     }
 
     const formik = useFormik({
@@ -47,7 +33,18 @@ const LoginForm = () => {
             email: '',
             Password: '',
         },
-        validate,
+        validationSchema: Yup.object({
+
+            email: Yup.string().email('Invalid email address').required('Required'),
+            Password: Yup.string()
+                .min(8, 'Must be 8 characters or more')
+                .max(30, 'Must be 30 characters or less')
+                .matches(
+                    /^.*((?=.*[a-z]){1})((?=.*[A-Z]){1})((?=.*[0-9]){1}).*$/,
+                    "The password must be one uppercase, one lowercase and one number"
+                )
+                .required('Required'),
+        }),
         onSubmit: values => {
             return checkLogin(values.email, values.Password)
         },
@@ -79,7 +76,7 @@ const LoginForm = () => {
 
 
                 <button type="submit">Login</button>
-                <button onClick={() => history.push("/SignupForm")} style={{ width: 200 }}>Signup</button>
+                <button className="sigupbut" onClick={() => history.push("/SignupForm")} style={{ width: 200 }}>Signup</button>
             </form>
         </div>
     );

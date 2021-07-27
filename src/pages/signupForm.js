@@ -3,41 +3,8 @@ import { useFormik } from 'formik';
 import '../signupForm.css'
 import { AuthContext } from '../App';
 import { useHistory } from "react-router-dom";
+import * as Yup from 'yup';
 
-function uniqueID() {
-    function chr4() {
-        return Math.random().toString(16).slice(-4);
-    }
-    return chr4() + chr4() +
-        '-' + chr4() +
-        '-' + chr4() +
-        '-' + chr4() +
-        '-' + chr4() + chr4() + chr4();
-}
-
-const validate = values => {
-    const errors = {};
-    if (!values.userName) {
-        errors.userName = 'Required';
-    } else if (values.userName.length < 4) {
-        errors.userName = 'The username must be more than 4 characters';
-    }
-
-    if (!values.email) {
-        errors.email = 'Required';
-        ///////////hellothisemailand@lamduan.ac.th     
-    } else if (!/^[A-Z 0-9 . _ % + -]+@[A-Z 0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address';
-    }
-
-    if (!values.Password) {
-        errors.Password = 'Required';
-    } else if (!/^[A-Z 0-9]{8,20}$/i.test(values.Password)) {
-        errors.Password = 'The Password must be 0-9 or A-Z more than 8 charaters but less than 20 characters';
-    }
-
-    return errors;
-};
 
 const SignupForm = () => {
     const { user, setUser } = useContext(AuthContext);
@@ -48,10 +15,24 @@ const SignupForm = () => {
             email: '',
             Password: '',
         },
-        validate,
+        validationSchema: Yup.object({
+            userName: Yup.string()
+                .min(4, 'Must be 4 characters or more')
+                .max(20, 'Must be 20 characters or less')
+                .required('Required'),
+            email: Yup.string().email('Invalid email address').required('Required'),
+            Password: Yup.string()
+                .min(8, 'Must be 8 characters or more')
+                .max(30, 'Must be 30 characters or less')
+                .matches(
+                    /^.*((?=.*[a-z]){1})((?=.*[A-Z]){1})((?=.*[0-9]){1}).*$/,
+                    "The password must be one uppercase, one lowercase and one number"
+                )
+                .required('Required'),
+        }),
         onSubmit: values => {
             history.push('/')
-            setUser([...user, { id: uniqueID(), username: values.userName, email: values.email, password: values.Password }])
+            setUser([...user, { id: user.length + 1, username: values.userName, email: values.email, password: values.Password }])
 
         },
     });

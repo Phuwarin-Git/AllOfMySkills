@@ -9,6 +9,7 @@ const AuthContext = createContext();
 
 function App() {
 
+  const [currentUser, setCurrent] = useState([]);
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("saved");
 
@@ -18,6 +19,8 @@ function App() {
       return [];
     }
   });
+
+
   useEffect(() => {
     console.log("User :", user)
     localStorage.setItem('saved', JSON.stringify(user));
@@ -26,7 +29,7 @@ function App() {
   return (
     // window.localStorage.removeItem('saved')
     <div>
-      <AuthContext.Provider value={{ user, setUser }}>
+      <AuthContext.Provider value={{ user, setUser, currentUser, setCurrent }}>
         <Switch>
           <Route exact path="/" component={LoginForm}></Route>
           <Route path="/SignupForm" component={SignupForm}></Route>
