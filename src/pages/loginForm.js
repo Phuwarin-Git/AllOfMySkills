@@ -16,10 +16,11 @@ const LoginForm = () => {
         console.log('filter :', filterEmail)
 
         if (filterEmail.length === 1) {
-            history.push("/Home")
+
             return <div>
                 {setCurrent(filterEmail)}
                 {alert("Login Success")}
+                {history.push("/Home")}
             </div>
 
         } else {

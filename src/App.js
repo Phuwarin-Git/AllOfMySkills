@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import './App.css';
 import LoginForm from './pages/loginForm';
 import SignupForm from './pages/signupForm';
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Home from './pages/home';
 
 const AuthContext = createContext();
@@ -26,6 +26,10 @@ function App() {
     localStorage.setItem('saved', JSON.stringify(user));
   }, [user])
 
+  useEffect(() => {
+    console.log("Current =>", currentUser.length)
+  }, [currentUser])
+
   return (
     // window.localStorage.removeItem('saved')
     <div>
@@ -33,7 +37,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={LoginForm}></Route>
           <Route path="/SignupForm" component={SignupForm}></Route>
-          <Route path="/Home" component={Home}></Route>
+          <Route path="/Home" render={() => currentUser.length === 1 ? <Home /> : (<Redirect to="/" />)} ></Route>
           <Route path="/:id">Error 404 page not found</Route>
         </Switch>
       </AuthContext.Provider>
