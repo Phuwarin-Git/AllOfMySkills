@@ -17,7 +17,7 @@ const SignupForm = () => {
         })
         console.log('filter :', filterEmail)
 
-        if (filterEmail.length === 1) {
+        if (filterEmail.length !== 0) {
             alert("This email address is already used")
         }
         else {
