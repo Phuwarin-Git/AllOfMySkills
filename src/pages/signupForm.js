@@ -9,6 +9,26 @@ import * as Yup from 'yup';
 const SignupForm = () => {
     const { user, setUser } = useContext(AuthContext);
     const history = useHistory();
+
+    function CheckEmail(username, email, password) {
+
+        const filterEmail = user.filter((item) => {
+            return (item.email === email)
+        })
+        console.log('filter :', filterEmail)
+
+        if (filterEmail.length === 1) {
+            alert("This email address is already used")
+        }
+        else {
+            setUser([...user, { id: user.length + 1, username: username, email: email, password: password }])
+            alert("Register success", email)
+            history.push('/')
+
+        }
+
+    }
+
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -20,7 +40,8 @@ const SignupForm = () => {
                 .min(4, 'Must be 4 characters or more')
                 .max(20, 'Must be 20 characters or less')
                 .required('Required'),
-            email: Yup.string().email('Invalid email address').required('Required'),
+            email: Yup.string().email('Invalid email address')
+                .required('Required'),
             Password: Yup.string()
                 .min(8, 'Must be 8 characters or more')
                 .max(30, 'Must be 30 characters or less')
@@ -31,9 +52,7 @@ const SignupForm = () => {
                 .required('Required'),
         }),
         onSubmit: values => {
-            history.push('/')
-            setUser([...user, { id: user.length + 1, username: values.userName, email: values.email, password: values.Password }])
-
+            CheckEmail(values.userName, values.email, values.Password)
         },
     });
     return (
